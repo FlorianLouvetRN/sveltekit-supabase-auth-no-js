@@ -1,27 +1,25 @@
 import cookie from 'cookie';
 import supabase from '$lib/supabase';
 
-export function getSession(request) {
-	if (!request.locals.user) return {};
-	return {
-		user: request.locals.user,
-	};
+export function getSession(event) {
+	if (!event.locals) return {};
+	return event.locals.user ? {
+		user: event.locals.user,
+	} : {};
 }
 
-export const handle = async ({ request, resolve }) => {
-	const cookies = cookie.parse(request.headers.cookie || '');
-	const jwt = cookies['sb:token'];
+export const handle = async ({ event, resolve }) => {
+	const request = event.request;
+	console.log(request.headers)
+	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	console.log(cookies);
+	const jwt = cookies['sb-access-token'];
 	if (jwt) {
 		supabase.auth.setAuth(jwt);
 		const { user } = await supabase.auth.api.getUserByCookie({ cookies });
-		request.locals.user = user;
+		event.locals.user = user;
 	}
 
-	// TODO https://github.com/sveltejs/kit/issues/1046
-	if (request.url.searchParams.has('_method')) {
-		request.method = request.url.searchParams.get('_method').toUpperCase();
-	}
-
-	const response = await resolve(request);
+	const response = await resolve(event);
 	return response;
 };

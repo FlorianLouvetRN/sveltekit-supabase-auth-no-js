@@ -1,19 +1,8 @@
-<script context="module">
-	export async function load({ url }) {
-		const error = url.searchParams.get('error');
-		if (error) {
-			return {
-				props: {
-					error
-				}
-			};
-		}
-		return {};
-	}
-</script>
-
 <script>
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { on_submit_action } from '$lib/on_submit';
+
 	export let error = null;
 
 	let password_recovery = false;
@@ -49,7 +38,7 @@
 			</div>
 		{/if}
 		{#if password_recovery}
-			<form action="/reset-password.json" method="post" class="w-full">
+			<form method="post" class="w-full">
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
@@ -84,6 +73,7 @@
 						/>
 					</div>
 				</div>
+				<input type="hidden" value="recovery" name="type" />
 				<input type="hidden" value={access_token} name="access_token" />
 				<div class="flex justify-end">
 					<button
@@ -95,7 +85,10 @@
 				</div>
 			</form>
 		{:else}
-			<form action="/signin.json" method="post" class="w-full">
+			<form
+				method="post"
+				class="w-full"
+			>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="flex-1 px-3">
 						<label
@@ -130,6 +123,7 @@
 						/>
 					</div>
 				</div>
+				<input type="hidden" value="login" name="type" />
 				<div class="flex justify-end">
 					<button
 						class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex-1 md:flex-initial"

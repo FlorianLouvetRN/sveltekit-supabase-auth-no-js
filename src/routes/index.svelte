@@ -4,7 +4,7 @@
 
 {#if $session.user}
 	<div class="flex-none">
-		<form method="post" action="/signout.json" class="m-0 p-0 inline-flex">
+		<form method="post" action="/auth/signout" class="m-0 p-0 inline-flex">
 			<button type="submit" class="inline-flex px-3">
 				Sign out
 			</button>
