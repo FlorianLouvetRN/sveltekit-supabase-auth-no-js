@@ -3,9 +3,15 @@
 	import { page } from '$app/stores';
 	import { on_submit_action } from '$lib/on_submit';
 
+	/**
+	 * @type {string|null}
+	 */
 	export let error = null;
 
 	let password_recovery = false;
+	/**
+	 * @type {string|null}
+	 */
 	let access_token = null;
 
 	const hash = $page.url.hash.substring(1);
@@ -85,10 +91,7 @@
 				</div>
 			</form>
 		{:else}
-			<form
-				method="post"
-				class="w-full"
-			>
+			<form method="post" class="w-full">
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="flex-1 px-3">
 						<label

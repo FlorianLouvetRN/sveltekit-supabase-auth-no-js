@@ -1,6 +1,8 @@
-import cookie from 'cookie';
+import * as cookie from 'cookie';
 import supabase from '$lib/supabase';
 
+
+/** @type {import('@sveltejs/kit').GetSession} */
 export function getSession(event) {
 	if (!event.locals) return {};
 	return event.locals.user ? {
@@ -8,11 +10,11 @@ export function getSession(event) {
 	} : {};
 }
 
+/** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({ event, resolve }) => {
 	const request = event.request;
 	console.log(request.headers)
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	console.log(cookies);
 	const jwt = cookies['sb-access-token'];
 	if (jwt) {
 		supabase.auth.setAuth(jwt);
@@ -23,3 +25,4 @@ export const handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	return response;
 };
+
