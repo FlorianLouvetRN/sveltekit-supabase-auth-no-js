@@ -13,7 +13,6 @@ export function getSession(event) {
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({ event, resolve }) => {
 	const request = event.request;
-	console.log(request.headers)
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
 	const jwt = cookies['sb-access-token'];
 	if (jwt) {

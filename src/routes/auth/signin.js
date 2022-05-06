@@ -70,7 +70,7 @@ const login = async (request, data) => {
 
 export async function get() {
 	return {
-		body: { }
+		body: {}
 	};
 }
 
@@ -80,7 +80,7 @@ export async function post({ request }) {
 	if (data.get("type") == "recovery") {
 		return await password_recovery(data);
 	} else if (data.get("type") == "login") {
-		let res =  await login(request, data);
+		let res = await login(request, data);
 		console.log(res);
 		return res;
 	}

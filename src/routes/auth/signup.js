@@ -5,10 +5,11 @@ export async function post({ request }) {
 
     // Sign up user
     const { error } = await supabase.auth.signUp({ email: data.get("email"), password: data.get("password") });
+    // Signing up 
     if (!error) {
         return {
             status: 200,
-            body: { error: "success" }
+            body: { signup_success: true }
         }
     } else {
         return {
