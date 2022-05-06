@@ -3,10 +3,8 @@
 </script>
 
 <script>
-	export /**
-	 * @type {null|string}
-	 */
-	let error = null;
+	import { enhance } from '$lib/form';
+	export let error = '';
 	export let signup_success = false;
 </script>
 
@@ -50,7 +48,21 @@
 		{/if}
 
 		<h1 class="text-primary text-2xl my-4">Create an account</h1>
-		<form method="post" class="w-full">
+		<form
+			method="post"
+			action="/auth/signup"
+			class="w-full"
+			use:enhance={{
+				result: async ({ form }) => {
+					form.reset();
+					signup_success = true;
+				},
+				error: async ({ response }) => {
+					const result = await response?.json();
+					error = result.error;
+				}
+			}}
+		>
 			<div class="flex flex-wrap -mx-3 mb-6">
 				<div class="flex-1 px-3">
 					<label
