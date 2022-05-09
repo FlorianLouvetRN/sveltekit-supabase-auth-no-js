@@ -1,13 +1,14 @@
 import * as cookie from 'cookie';
 import supabase from '$lib/supabase';
 
-
 /** @type {import('@sveltejs/kit').GetSession} */
 export function getSession(event) {
 	if (!event.locals) return {};
-	return event.locals.user ? {
-		user: event.locals.user,
-	} : {};
+	return event.locals.user
+		? {
+			user: event.locals.user
+		}
+		: {};
 }
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -24,4 +25,3 @@ export const handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	return response;
 };
-
